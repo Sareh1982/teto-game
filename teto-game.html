@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TETO - Juego de Palabras</title>
+    <title>ZUMBALETRAS - Juego de Palabras</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,10 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0173B2 0%, #DE8F05 100%);
+            background-image: url('https://raw.githubusercontent.com/Sareh1982/teto-game/main/fondo%20teto1.png');
+            background-size: cover;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -36,7 +39,7 @@
         .screen {
             display: none;
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
             flex-direction: column;
         }
@@ -52,7 +55,7 @@
 
         .screen-header h1 {
             font-size: 32px;
-            color: #667eea;
+            color: #0173B2;
             margin-bottom: 10px;
         }
 
@@ -83,12 +86,12 @@
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #0173B2;
         }
 
         .btn {
             padding: 12px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0173B2 0%, #029E73 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -105,11 +108,11 @@
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: #555555;
         }
 
         .btn-success {
-            background: #28a745;
+            background: #0173B2;
         }
 
         .emoji-grid {
@@ -120,8 +123,8 @@
         }
 
         .emoji-btn {
-            font-size: 40px;
-            padding: 12px;
+            font-size: 32px;
+            padding: 8px;
             border: 2px solid #ddd;
             border-radius: 8px;
             background: white;
@@ -135,9 +138,9 @@
 
         .emoji-btn.selected {
             transform: scale(1.2);
-            border-color: #667eea;
-            background: #f0f4ff;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+            border-color: #0173B2;
+            background: #e8f4f8;
+            box-shadow: 0 0 10px rgba(1, 115, 178, 0.3);
         }
 
         .add-player-form {
@@ -203,7 +206,7 @@
             background: #f8f9fa;
             font-weight: bold;
             font-size: 14px;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid #0173B2;
         }
 
         .score-item {
@@ -219,7 +222,7 @@
 
         .score-value {
             font-size: 20px;
-            color: #667eea;
+            color: #0173B2;
         }
 
         .game-content {
@@ -228,13 +231,13 @@
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            padding: 20px;
+            padding: 12px;
         }
 
         .player-name-display {
             font-size: 28px;
             font-weight: bold;
-            color: #667eea;
+            color: #0173B2;
             text-align: center;
             margin: 20px 0;
         }
@@ -252,22 +255,22 @@
         }
 
         .timer-display {
-            font-size: 72px;
+            font-size: 56px;
             font-weight: bold;
-            color: #ff0000;
+            color: #DE8F05;
             font-family: 'Courier New', monospace;
-            margin: 20px auto;
+            margin: 8px auto;
             text-align: center;
             width: 100%;
         }
 
         .letter-display {
             background: #fff3cd;
-            padding: 15px 20px;
+            padding: 10px;
             border-radius: 10px;
             text-align: center;
-            margin: 15px 0;
-            font-size: 32px;
+            margin: 8px 0;
+            font-size: 28px;
             font-weight: bold;
             color: #856404;
             width: 100%;
@@ -289,16 +292,16 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
         }
 
         .word-pair {
             background: #f8f9fa;
-            padding: 12px;
+            padding: 8px;
             border-radius: 8px;
             text-align: center;
             border: 2px solid #ddd;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
             color: #333;
         }
@@ -369,22 +372,22 @@
         }
 
         .btn-back {
-            background: #6c757d;
+            background: #555555;
             color: white;
         }
 
         .btn-pause {
-            background: #ffc107;
-            color: #333;
+            background: #CA9161;
+            color: white;
         }
 
         .btn-end {
-            background: #ff6b6b;
+            background: #DE8F05;
             color: white;
         }
 
         .btn-inicio {
-            background: #0066cc;
+            background: #0173B2;
             color: white;
         }
 
@@ -422,7 +425,7 @@
 
         .next-player-btn {
             padding: 12px 20px;
-            background: #667eea;
+            background: #0173B2;
             color: white;
             border: none;
             border-radius: 8px;
@@ -444,13 +447,13 @@
 
         .end-game-screen h2 {
             font-size: 32px;
-            color: #667eea;
+            color: #0173B2;
             margin-bottom: 20px;
         }
 
         .end-game-winner {
             font-size: 28px;
-            color: #28a745;
+            color: #029E73;
             font-weight: bold;
             margin: 20px 0;
         }
@@ -466,9 +469,9 @@
         }
 
         .setup-label {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 8px;
+            font-size: 12px;
+            color: #0173B2;
+            margin-bottom: 6px;
             font-weight: bold;
         }
     </style>
@@ -478,8 +481,8 @@
         <!-- PANTALLA 0: INICIO -->
         <div class="screen active" id="introScreen">
             <div class="intro-container">
-                <div class="intro-title">🎤 HABLA RARA</div>
-                <div style="font-size: 16px; color: #666; margin-bottom: 40px;">Juego de palabras absurdas</div>
+                <img src="https://raw.githubusercontent.com/Sareh1982/teto-game/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 320px; height: auto; margin-bottom: 20px;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 30px;">Juego de palabras absurdas</div>
                 
                 <button class="btn btn-success" onclick="startNewGame()" style="font-size: 18px;">
                     ➕ Nueva Partida
@@ -494,29 +497,29 @@
         <!-- PANTALLA SETUP EQUIPO A -->
         <div class="screen" id="setupScreenA">
             <div class="screen-header">
-                <h1>🎤 HABLA RARA</h1>
+                <img src="https://raw.githubusercontent.com/Sareh1982/teto-game/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 200px; height: auto; margin-bottom: 10px;">
             </div>
 
-            <div style="text-align: center; font-size: 20px; color: #667eea; font-weight: bold; margin-bottom: 20px;">
+            <div style="text-align: center; font-size: 16px; color: #0173B2; font-weight: bold; margin-bottom: 15px;">
                 Configura el Equipo A
             </div>
 
             <div class="setup-label">Escribe el nombre del Equipo A:</div>
-            <input type="text" id="teamAName" placeholder="Nombre del Equipo A" value="Equipo A">
+            <input type="text" id="teamAName" placeholder="Nombre del Equipo A" value="Equipo A" style="margin-bottom: 10px;">
             
-            <div class="setup-label" style="margin-top: 15px;">Elige avatar:</div>
-            <div class="emoji-grid" id="emojiGridA"></div>
+            <div class="setup-label" style="margin-top: 10px;">Elige avatar:</div>
+            <div class="emoji-grid" id="emojiGridA" style="margin: 8px 0;"></div>
 
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 10px;">
                 <div class="setup-label">Añade los jugadores:</div>
-                <div class="add-player-form">
+                <div class="add-player-form" style="margin: 6px 0;">
                     <input type="text" id="playerInputA" placeholder="Nombre del jugador">
                     <button onclick="addPlayerToTeam('A')">+ Añadir</button>
                 </div>
-                <div class="players-list" id="playersA"></div>
+                <div class="players-list" id="playersA" style="max-height: 80px;"></div>
             </div>
 
-            <button class="btn" onclick="goToSetupB()" style="margin-top: auto;">
+            <button class="btn" onclick="goToSetupB()" style="margin-top: auto; margin-bottom: 8px;">
                 Rellena los datos del equipo B →
             </button>
             <button class="btn btn-secondary" onclick="backToIntro()">⬅️ Volver</button>
@@ -525,29 +528,29 @@
         <!-- PANTALLA SETUP EQUIPO B -->
         <div class="screen" id="setupScreenB">
             <div class="screen-header">
-                <h1>🎤 HABLA RARA</h1>
+                <img src="https://raw.githubusercontent.com/Sareh1982/teto-game/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 200px; height: auto; margin-bottom: 10px;">
             </div>
 
-            <div style="text-align: center; font-size: 20px; color: #667eea; font-weight: bold; margin-bottom: 20px;">
+            <div style="text-align: center; font-size: 16px; color: #0173B2; font-weight: bold; margin-bottom: 15px;">
                 Configura el Equipo B
             </div>
 
             <div class="setup-label">Escribe el nombre del Equipo B:</div>
-            <input type="text" id="teamBName" placeholder="Nombre del Equipo B" value="Equipo B">
+            <input type="text" id="teamBName" placeholder="Nombre del Equipo B" value="Equipo B" style="margin-bottom: 10px;">
             
-            <div class="setup-label" style="margin-top: 15px;">Elige avatar:</div>
-            <div class="emoji-grid" id="emojiGridB"></div>
+            <div class="setup-label" style="margin-top: 10px;">Elige avatar:</div>
+            <div class="emoji-grid" id="emojiGridB" style="margin: 8px 0;"></div>
 
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 10px;">
                 <div class="setup-label">Añade los jugadores:</div>
-                <div class="add-player-form">
+                <div class="add-player-form" style="margin: 6px 0;">
                     <input type="text" id="playerInputB" placeholder="Nombre del jugador">
                     <button onclick="addPlayerToTeam('B')">+ Añadir</button>
                 </div>
-                <div class="players-list" id="playersB"></div>
+                <div class="players-list" id="playersB" style="max-height: 80px;"></div>
             </div>
 
-            <button class="btn" onclick="startGame()" style="margin-top: auto;">▶️ INICIAR JUEGO</button>
+            <button class="btn" onclick="startGame()" style="margin-top: auto; margin-bottom: 8px;">▶️ INICIAR JUEGO</button>
             <button class="btn btn-secondary" onclick="backToSetupA()">⬅️ Volver a Equipo A</button>
         </div>
 
@@ -580,11 +583,12 @@
                 </div>
 
                 <!-- JUEGO ACTIVO -->
-                <div id="activeGameScreen" style="display: none; width: 100%; flex: 1; display: flex; flex-direction: column;">
-                    <div class="timer-display" id="timerDisplay">30</div>
-                    <div class="letter-display" id="letterDisplay">A</div>
-                    <div class="words-container" id="wordsContainer"></div>
-                    <div style="text-align: center; margin-top: 30px; font-size: 18px; color: #ff6b6b; font-weight: bold; font-style: italic; padding: 15px; background: #fff3cd; border-radius: 8px;">
+                <div id="activeGameScreen" style="display: none; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: flex-start;">
+                    <img src="https://raw.githubusercontent.com/Sareh1982/teto-game/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 150px; height: auto; margin: 0 auto 8px; display: block;">
+                    <div class="timer-display" id="timerDisplay" style="font-size: 56px; margin: 8px 0;">30</div>
+                    <div class="letter-display" id="letterDisplay" style="margin: 8px 0; padding: 10px;">A</div>
+                    <div class="words-container" id="wordsContainer" style="flex: 1; margin: 8px 0;"></div>
+                    <div style="text-align: center; margin-top: 10px; font-size: 14px; color: #ff6b6b; font-weight: bold; font-style: italic; padding: 10px; background: #fff3cd; border-radius: 8px;">
                         ✋ Recuerda que puedes hacer mímica para ayudarte
                     </div>
                 </div>
@@ -768,12 +772,16 @@
 
         function goToSetupB() {
             // Validar avatar seleccionado
-            if (!gameState.teamA.avatar || gameState.teamA.avatar === "🎮") {
-                const savedAvatar = document.querySelector("#emojiGridA .emoji-btn.selected");
-                if (!savedAvatar) {
-                    alert("⚠️ Selecciona un avatar para el Equipo A para poder continuar");
-                    return;
-                }
+            const selectedAvatarA = document.querySelector("#emojiGridA .emoji-btn.selected");
+            if (!selectedAvatarA) {
+                alert("⚠️ Elige avatar para continuar");
+                return;
+            }
+
+            // Validar mínimo 2 jugadores
+            if (gameState.teamA.players.length < 2) {
+                alert("⚠️ Debes seleccionar 2 jugadores o más para continuar");
+                return;
             }
             
             gameState.teamA.name = document.getElementById("teamAName").value || "Equipo A";
@@ -790,28 +798,22 @@
             gameState.teamB.name = document.getElementById("teamBName").value || "Equipo B";
 
             // Validar avatar Equipo B
-            if (!gameState.teamB.avatar || gameState.teamB.avatar === "🏆") {
-                const savedAvatar = document.querySelector("#emojiGridB .emoji-btn.selected");
-                if (!savedAvatar) {
-                    alert("⚠️ Selecciona un avatar para el Equipo B para poder continuar");
-                    return;
-                }
+            const selectedAvatarB = document.querySelector("#emojiGridB .emoji-btn.selected");
+            if (!selectedAvatarB) {
+                alert("⚠️ Elige avatar para continuar");
+                return;
+            }
+
+            // Validar mínimo 2 jugadores Equipo B
+            if (gameState.teamB.players.length < 2) {
+                alert("⚠️ Debes seleccionar 2 jugadores o más para continuar");
+                return;
             }
 
             let totalPlayers = gameState.teamA.players.length + gameState.teamB.players.length;
 
-            if (gameState.teamA.players.length === 0) {
-                alert("⚠️ El Equipo A necesita al menos un jugador");
-                return;
-            }
-
-            if (gameState.teamB.players.length === 0) {
-                alert("⚠️ El Equipo B necesita al menos un jugador");
-                return;
-            }
-
             if (totalPlayers < 4) {
-                alert("⚠️ Mínimo 4 jugadores en total (2 por equipo recomendado)");
+                alert("⚠️ Mínimo 4 jugadores en total");
                 return;
             }
 
@@ -1084,7 +1086,7 @@
             const endGameContent = document.getElementById("endGameContent");
             endGameContent.innerHTML = `
                 <div class="end-game-winner">🎉 ¡${winner.name} GANA!</div>
-                <div style="font-size: 24px; color: #667eea; margin: 20px 0;">${winnerScore} palabras acertadas</div>
+                <div style="font-size: 24px; color: #0173B2; margin: 20px 0;">${winnerScore} palabras acertadas</div>
                 <div class="end-game-loser">${loser.name}: ${loserScore} palabras</div>
             `;
             
