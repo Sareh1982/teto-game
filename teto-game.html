@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TETO - Juego de Palabras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            flex-direction: column;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .screen-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .screen-header h1 {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .intro-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .intro-title {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .emoji-btn {
+            font-size: 40px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-btn.selected {
+            transform: scale(1.2);
+            border-color: #667eea;
+            background: #f0f4ff;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .add-player-form {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .add-player-form input {
+            flex: 1;
+            margin: 0;
+        }
+
+        .add-player-form button {
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .players-list {
+            margin: 10px 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .player-item {
+            display: flex;
+            gap: 10px;
+            margin: 8px 0;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .player-item input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .player-item button {
+            padding: 6px 10px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .scoreboard {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            font-weight: bold;
+            font-size: 14px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .score-value {
+            font-size: 20px;
+            color: #667eea;
+        }
+
+        .game-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .player-name-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .team-avatar-display {
+            font-size: 48px;
+            margin: 10px 0;
+        }
+
+        .start-round-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #28a745;
+            margin: 20px 0;
+        }
+
+        .timer-display {
+            font-size: 72px;
+            font-weight: bold;
+            color: #ff0000;
+            font-family: 'Courier New', monospace;
+            margin: 20px auto;
+            text-align: center;
+            width: 100%;
+        }
+
+        .letter-display {
+            background: #fff3cd;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: #856404;
+            width: 100%;
+        }
+
+        .consonant-info {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+            color: #856404;
+        }
+
+        .words-container {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .word-pair {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #ddd;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .word-pair.guessed {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #28a745;
+            text-decoration: line-through;
+        }
+
+        .time-over-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .time-over-screen h2 {
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .control-bar {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-top: 2px solid #ddd;
+            justify-content: space-around;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 11px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-pause {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-end {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-inicio {
+            background: #0066cc;
+            color: white;
+        }
+
+        .checkbox-container {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .word-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 0 1 calc(50% - 5px);
+        }
+
+        .word-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .word-checkbox:has(input:checked) {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .next-player-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .end-game-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .end-game-screen h2 {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .end-game-winner {
+            font-size: 28px;
+            color: #28a745;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .end-game-loser {
+            font-size: 16px;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .setup-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PANTALLA 0: INICIO -->
+        <div class="screen active" id="introScreen">
+            <div class="intro-container">
+                <div class="intro-title">🎤 HABLA RARA</div>
+                <div style="font-size: 16px; color: #666; margin-bottom: 40px;">Juego de palabras absurdas</div>
+                
+                <button class="btn btn-success" onclick="startNewGame()" style="font-size: 18px;">
+                    ➕ Nueva Partida
+                </button>
+                
+                <button class="btn btn-secondary" onclick="loadSavedTeams()" style="font-size: 18px;">
+                    📂 Cargar Equipos Guardados
+                </button>
+            </div>
+        </div>
+
+        <!-- PANTALLA SETUP EQUIPO A -->
+        <div class="screen" id="setupScreenA">
+            <div class="screen-header">
+                <h1>🎤 HABLA RARA</h1>
+            </div>
+
+            <div style="text-align: center; font-size: 20px; color: #667eea; font-weight: bold; margin-bottom: 20px;">
+                Configura el Equipo A
+            </div>
+
+            <div class="setup-label">Escribe el nombre del Equipo A:</div>
+            <input type="text" id="teamAName" placeholder="Nombre del Equipo A" value="Equipo A">
+            
+            <div class="setup-label" style="margin-top: 15px;">Elige avatar:</div>
+            <div class="emoji-grid" id="emojiGridA"></div>
+
+            <div style="margin-top: 15px;">
+                <div class="setup-label">Añade los jugadores:</div>
+                <div class="add-player-form">
+                    <input type="text" id="playerInputA" placeholder="Nombre del jugador">
+                    <button onclick="addPlayerToTeam('A')">+ Añadir</button>
+                </div>
+                <div class="players-list" id="playersA"></div>
+            </div>
+
+            <button class="btn" onclick="goToSetupB()" style="margin-top: auto;">
+                Rellena los datos del equipo B →
+            </button>
+            <button class="btn btn-secondary" onclick="backToIntro()">⬅️ Volver</button>
+        </div>
+
+        <!-- PANTALLA SETUP EQUIPO B -->
+        <div class="screen" id="setupScreenB">
+            <div class="screen-header">
+                <h1>🎤 HABLA RARA</h1>
+            </div>
+
+            <div style="text-align: center; font-size: 20px; color: #667eea; font-weight: bold; margin-bottom: 20px;">
+                Configura el Equipo B
+            </div>
+
+            <div class="setup-label">Escribe el nombre del Equipo B:</div>
+            <input type="text" id="teamBName" placeholder="Nombre del Equipo B" value="Equipo B">
+            
+            <div class="setup-label" style="margin-top: 15px;">Elige avatar:</div>
+            <div class="emoji-grid" id="emojiGridB"></div>
+
+            <div style="margin-top: 15px;">
+                <div class="setup-label">Añade los jugadores:</div>
+                <div class="add-player-form">
+                    <input type="text" id="playerInputB" placeholder="Nombre del jugador">
+                    <button onclick="addPlayerToTeam('B')">+ Añadir</button>
+                </div>
+                <div class="players-list" id="playersB"></div>
+            </div>
+
+            <button class="btn" onclick="startGame()" style="margin-top: auto;">▶️ INICIAR JUEGO</button>
+            <button class="btn btn-secondary" onclick="backToSetupA()">⬅️ Volver a Equipo A</button>
+        </div>
+
+        <!-- PANTALLA TURNO -->
+        <div class="screen" id="gameScreen">
+            <div class="scoreboard">
+                <div class="score-item">
+                    <span class="score-label">EQUIPO A</span>
+                    <span class="score-value" id="scoreA">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">EQUIPO B</span>
+                    <span class="score-value" id="scoreB">0</span>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <!-- ANTES DE EMPEZAR TURNO -->
+                <div id="waitingScreen" style="text-align: center;">
+                    <div class="player-name-display" id="nextPlayerName">Jugador</div>
+                    <div class="team-avatar-display" id="nextPlayerAvatar">🎮</div>
+                    <button class="btn start-round-btn" onclick="showCountdown()">Pulsa para empezar tu ronda</button>
+                </div>
+
+                <!-- CONTADOR INICIAL -->
+                <div id="countdownScreen" style="display: none; text-align: center;">
+                    <div style="font-size: 36px; font-weight: bold; color: #667eea; margin: 40px 0;">INICIA RONDA!</div>
+                    <div class="consonant-info">La consonante es: <strong id="consonantInfo" style="font-size: 28px; color: #ff0000;">M</strong></div>
+                    <button class="btn start-round-btn" onclick="startRound()">Pulsa para activar el cronómetro</button>
+                </div>
+
+                <!-- JUEGO ACTIVO -->
+                <div id="activeGameScreen" style="display: none; width: 100%; flex: 1; display: flex; flex-direction: column;">
+                    <div class="timer-display" id="timerDisplay">30</div>
+                    <div class="letter-display" id="letterDisplay">A</div>
+                    <div class="words-container" id="wordsContainer"></div>
+                    <div style="text-align: center; margin-top: 30px; font-size: 18px; color: #ff6b6b; font-weight: bold; font-style: italic; padding: 15px; background: #fff3cd; border-radius: 8px;">
+                        ✋ Recuerda que puedes hacer mímica para ayudarte
+                    </div>
+                </div>
+
+                <!-- VALIDACIÓN DE ACIERTOS -->
+                <div id="validationScreen" style="display: none; width: 100%;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="color: #ff6b6b; font-size: 36px;">¡TIEMPO!</h2>
+                        <p style="color: #666; font-size: 14px; margin-top: 10px;">Marca las palabras adivinadas</p>
+                    </div>
+                    <div class="checkbox-container" id="checkboxContainer"></div>
+                    <button class="next-player-btn" onclick="confirmAndPassPhone()">Pasa el teléfono al siguiente jugador</button>
+                </div>
+            </div>
+
+            <div class="control-bar">
+                <button class="control-btn btn-back" id="btnBack" onclick="goBack()">⬅️ Atrás</button>
+                <button class="control-btn btn-pause" id="btnPause" onclick="togglePause()">⏸️ Pausa</button>
+                <button class="control-btn btn-end" onclick="confirmEndGame()">⏹️ Terminar</button>
+            </div>
+        </div>
+
+        <!-- PANTALLA FIN DE JUEGO -->
+        <div class="screen" id="endGameScreen">
+            <div class="end-game-screen">
+                <h2>🏆 FIN DE LA PARTIDA</h2>
+                <div id="endGameContent"></div>
+                <button class="btn btn-success" onclick="playAgainSameTeams()" style="margin-top: 20px;">🔄 Jugar otra ronda con estos equipos</button>
+                <button class="btn btn-secondary" onclick="startNewGame()" style="margin-top: 10px;">➕ Crear nuevo equipo desde cero</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY TIEMPO -->
+    <div class="time-over-screen hidden" id="timeOverOverlay">
+        <h2>¡TIEMPO!</h2>
+        <div style="font-size: 18px; margin-top: 20px;">Marca las palabras adivinadas</div>
+    </div>
+
+    <script>
+        // ===== BANCO DE PALABRAS SIMPLES Y PRONUNCIABLES =====
+        const palabras = {
+            2: ["mesa", "casa", "perro", "gato", "agua", "solo", "pato", "nube", "tren", "foco", "nido", "ropa", "bola", "llave", "mano", "pies", "cama", "sala", "piso", "taza", "vaso", "silla", "puerta", "tiempo", "letra", "libro", "árbol", "fruta", "flor", "cielo", "tierra", "fuego", "hielo", "sopa", "pan", "carne", "queso", "leche", "huevo", "sal", "harina", "trigo", "arroz", "pasta", "patata", "zanahoria", "cebolla", "café", "té", "vino", "jamón"],
+            3: ["manzana", "naranja", "plátano", "fresa", "mora", "ciruela", "cereza", "sandía", "melón", "piña", "limón", "lima", "uva", "pera", "tomate", "pepino", "lechuga", "espinaca", "brócoli", "coliflor", "champiñón", "ajo", "perejil", "tomillo", "albahaca", "orégano", "canela", "clavo", "nuez", "almendra", "cacahuete", "pistache", "castaña", "semilla", "grano", "espiga", "cosecha", "siembra", "arado", "azada", "pala", "escoba", "cepillo", "trapo", "toalla", "sábana", "almohada", "manta", "cortina", "ventana", "balcón", "escalera", "sótano", "ático", "cocina", "comedor", "lavabo", "ducha", "bañera", "espejo", "lámpara", "cuadro", "reloj", "radio", "teléfono", "móvil", "tablet", "cámara"],
+            4: ["elefante", "jirafa", "cocodrilo", "ardilla", "murciélago", "búho", "loro", "pájaro", "golondrina", "cigüeña", "grulla", "pelícano", "avestruz", "pingüino", "delfín", "ballena", "tiburón", "serpiente", "lagartija", "tortuga", "rana", "sapo", "araña", "escorpión", "hormiga", "abeja", "libélula", "mariposa", "caracol", "cangrejo", "langosta", "camarón", "pulpo", "calamar", "sepia", "estrella", "erizo", "medusa", "coral", "alga", "musgo", "horno", "estufa", "caldera", "termostato", "cadáver", "esqueleto", "órgano", "músculo", "tendón", "cartílago", "vértebra", "costilla", "pelvis"],
+            5: ["bicicleta", "motocicleta", "automóvil", "ferrocarril", "avión", "helicóptero", "submarino", "crucero", "carreta", "carruaje", "monopatín", "patineta", "volante", "acelerador", "embrague", "cambio", "teléfono", "fotografía", "estrategia", "geografía", "biología", "geología", "zoología", "botánica", "lógica", "estética", "ética", "política", "economía", "historia", "filosofía", "psicología", "sociología", "pedagogía", "dinámica", "mecánica"],
+            6: ["enciclopedia", "abracadabra", "administración", "organización", "universidad", "biblioteca", "antropología", "sociología", "etimología", "farmacología", "genealogía", "historiografía", "cinematografía", "fotografía", "coreografía", "tipografía", "caligrafía", "cartografía", "topografía", "demografía"]
+        };
+
+        // Avatares - 8 para cada equipo (sin repetirse)
+        const avataresA = ['🎮', '⚽', '🏀', '🎭', '🎸', '🎤', '🎬', '🎪'];
+        const avataresB = ['🏆', '🎯', '🎲', '🃏', '🎺', '🎻', '🥁', '🎹'];
+
+        let gameState = {
+            teamA: { name: "Equipo A", avatar: "🎮", players: [] },
+            teamB: { name: "Equipo B", avatar: "🏆", players: [] },
+            currentPlayerOrder: [],
+            currentPlayerIndex: 0,
+            isPaused: false,
+            isTimerRunning: false,
+            timer: 30,
+            currentConsonant: "A",
+            activeGameScreen: "waiting",
+            timerInterval: null
+        };
+
+        function initEmojiGrids() {
+            const emojiGridA = document.getElementById("emojiGridA");
+            const emojiGridB = document.getElementById("emojiGridB");
+            
+            avataresA.forEach(emoji => {
+                const btnA = document.createElement("button");
+                btnA.className = "emoji-btn";
+                btnA.textContent = emoji;
+                btnA.onclick = () => {
+                    gameState.teamA.avatar = emoji;
+                    document.querySelectorAll("#emojiGridA .emoji-btn").forEach(b => b.classList.remove("selected"));
+                    btnA.classList.add("selected");
+                };
+                emojiGridA.appendChild(btnA);
+            });
+
+            avataresB.forEach(emoji => {
+                const btnB = document.createElement("button");
+                btnB.className = "emoji-btn";
+                btnB.textContent = emoji;
+                btnB.onclick = () => {
+                    gameState.teamB.avatar = emoji;
+                    document.querySelectorAll("#emojiGridB .emoji-btn").forEach(b => b.classList.remove("selected"));
+                    btnB.classList.add("selected");
+                };
+                emojiGridB.appendChild(btnB);
+            });
+        }
+
+        function addPlayerToTeam(team) {
+            const inputId = team === 'A' ? "playerInputA" : "playerInputB";
+            const input = document.getElementById(inputId);
+            
+            if (!input.value.trim()) {
+                alert("Escribe el nombre del jugador");
+                return;
+            }
+
+            const teamData = team === 'A' ? gameState.teamA : gameState.teamB;
+            teamData.players.push({ name: input.value.trim(), words: [], guessedWords: [] });
+            input.value = "";
+            renderPlayers(team);
+        }
+
+        function renderPlayers(team) {
+            const containerId = team === 'A' ? "playersA" : "playersB";
+            const container = document.getElementById(containerId);
+            const teamData = team === 'A' ? gameState.teamA : gameState.teamB;
+            
+            container.innerHTML = "";
+
+            teamData.players.forEach((player, idx) => {
+                const div = document.createElement("div");
+                div.className = "player-item";
+                div.innerHTML = `
+                    <input type="text" value="${player.name}" disabled>
+                    <button onclick="removePlayer('${team}', ${idx})">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removePlayer(team, idx) {
+            const teamData = team === 'A' ? gameState.teamA : gameState.teamB;
+            teamData.players.splice(idx, 1);
+            renderPlayers(team);
+        }
+
+        function startNewGame() {
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+            }
+            document.getElementById("playerInputA").value = "";
+            document.getElementById("playerInputB").value = "";
+            gameState.teamA.players = [];
+            gameState.teamB.players = [];
+            gameState.teamA.name = "Equipo A";
+            gameState.teamB.name = "Equipo B";
+            gameState.teamA.avatar = "🎮";
+            gameState.teamB.avatar = "🏆";
+            document.getElementById("teamAName").value = "Equipo A";
+            document.getElementById("teamBName").value = "Equipo B";
+            renderPlayers('A');
+            renderPlayers('B');
+            switchScreen("setupScreenA");
+        }
+
+        function loadSavedTeams() {
+            const saved = localStorage.getItem("tetoTeams");
+            if (!saved) {
+                alert("No hay equipos guardados");
+                return;
+            }
+
+            const data = JSON.parse(saved);
+            gameState.teamA = { name: data.teamA.name, avatar: data.teamA.avatar, players: data.teamA.players.map(p => ({...p, guessedWords: []})) };
+            gameState.teamB = { name: data.teamB.name, avatar: data.teamB.avatar, players: data.teamB.players.map(p => ({...p, guessedWords: []})) };
+
+            document.getElementById("teamAName").value = gameState.teamA.name;
+            document.getElementById("teamBName").value = gameState.teamB.name;
+            
+            document.querySelectorAll("#emojiGridA .emoji-btn").forEach(b => {
+                if (b.textContent === gameState.teamA.avatar) b.classList.add("selected");
+                else b.classList.remove("selected");
+            });
+            document.querySelectorAll("#emojiGridB .emoji-btn").forEach(b => {
+                if (b.textContent === gameState.teamB.avatar) b.classList.add("selected");
+                else b.classList.remove("selected");
+            });
+
+            renderPlayers('A');
+            renderPlayers('B');
+            switchScreen("setupScreenA");
+        }
+
+        function goToSetupB() {
+            // Validar avatar seleccionado
+            if (!gameState.teamA.avatar || gameState.teamA.avatar === "🎮") {
+                const savedAvatar = document.querySelector("#emojiGridA .emoji-btn.selected");
+                if (!savedAvatar) {
+                    alert("⚠️ Selecciona un avatar para el Equipo A para poder continuar");
+                    return;
+                }
+            }
+            
+            gameState.teamA.name = document.getElementById("teamAName").value || "Equipo A";
+            switchScreen("setupScreenB");
+        }
+
+        function backToSetupA() {
+            gameState.teamB.name = document.getElementById("teamBName").value || "Equipo B";
+            switchScreen("setupScreenA");
+        }
+
+        function startGame() {
+            gameState.teamA.name = document.getElementById("teamAName").value || "Equipo A";
+            gameState.teamB.name = document.getElementById("teamBName").value || "Equipo B";
+
+            // Validar avatar Equipo B
+            if (!gameState.teamB.avatar || gameState.teamB.avatar === "🏆") {
+                const savedAvatar = document.querySelector("#emojiGridB .emoji-btn.selected");
+                if (!savedAvatar) {
+                    alert("⚠️ Selecciona un avatar para el Equipo B para poder continuar");
+                    return;
+                }
+            }
+
+            let totalPlayers = gameState.teamA.players.length + gameState.teamB.players.length;
+
+            if (gameState.teamA.players.length === 0) {
+                alert("⚠️ El Equipo A necesita al menos un jugador");
+                return;
+            }
+
+            if (gameState.teamB.players.length === 0) {
+                alert("⚠️ El Equipo B necesita al menos un jugador");
+                return;
+            }
+
+            if (totalPlayers < 4) {
+                alert("⚠️ Mínimo 4 jugadores en total (2 por equipo recomendado)");
+                return;
+            }
+
+            distributeWords();
+            createPlayerOrder();
+            gameState.teamA.guessedWords = [];
+            gameState.teamB.guessedWords = [];
+            switchScreen("gameScreen");
+            showNextPlayer();
+        }
+
+        function createPlayerOrder() {
+            // Intercalar jugadores: A1, B1, A2, B2, A3, B3...
+            gameState.currentPlayerOrder = [];
+            const maxPlayers = Math.max(gameState.teamA.players.length, gameState.teamB.players.length);
+            
+            for (let i = 0; i < maxPlayers; i++) {
+                if (i < gameState.teamA.players.length) {
+                    gameState.currentPlayerOrder.push({ team: "A", idx: i });
+                }
+                if (i < gameState.teamB.players.length) {
+                    gameState.currentPlayerOrder.push({ team: "B", idx: i });
+                }
+            }
+            
+            gameState.currentPlayerIndex = 0;
+        }
+
+        function distributeWords() {
+            const allWords = Object.entries(palabras).flatMap(([syl, words]) => 
+                words.map(w => ({ word: w, syl: parseInt(syl) }))
+            );
+
+            let totalPlayersA = gameState.teamA.players.length;
+            let totalPlayersB = gameState.teamB.players.length;
+            let wordsPerPlayerA = 6;
+            let wordsPerPlayerB = 6;
+
+            let totalWordsA = totalPlayersA * wordsPerPlayerA;
+            let totalWordsB = totalPlayersB * wordsPerPlayerB;
+
+            if (totalWordsA > totalWordsB) {
+                let diff = totalWordsA - totalWordsB;
+                let extraPerPlayer = Math.ceil(diff / totalPlayersB);
+                wordsPerPlayerB += extraPerPlayer;
+            } else if (totalWordsB > totalWordsA) {
+                let diff = totalWordsB - totalWordsA;
+                let extraPerPlayer = Math.ceil(diff / totalPlayersA);
+                wordsPerPlayerA += extraPerPlayer;
+            }
+
+            const shuffledWords = [...allWords].sort(() => Math.random() - 0.5);
+            let wordIndex = 0;
+
+            gameState.teamA.players.forEach(player => {
+                const playerWords = [];
+                for (let i = 0; i < wordsPerPlayerA && wordIndex < shuffledWords.length; i++) {
+                    playerWords.push(shuffledWords[wordIndex].word);
+                    wordIndex++;
+                }
+                player.words = playerWords;
+                player.guessedWords = [];
+            });
+
+            gameState.teamB.players.forEach(player => {
+                const playerWords = [];
+                for (let i = 0; i < wordsPerPlayerB && wordIndex < shuffledWords.length; i++) {
+                    playerWords.push(shuffledWords[wordIndex].word);
+                    wordIndex++;
+                }
+                player.words = playerWords;
+                player.guessedWords = [];
+            });
+        }
+
+        function showNextPlayer() {
+            const playerInfo = gameState.currentPlayerOrder[gameState.currentPlayerIndex];
+            const team = playerInfo.team === "A" ? gameState.teamA : gameState.teamB;
+            const player = team.players[playerInfo.idx];
+            
+            document.getElementById("nextPlayerName").textContent = player.name;
+            document.getElementById("nextPlayerAvatar").textContent = team.avatar;
+            
+            hideAllGameScreens();
+            document.getElementById("waitingScreen").style.display = "flex";
+            updateButtonsState();
+        }
+
+        function showCountdown() {
+            gameState.currentConsonant = getRandomConsonant();
+            document.getElementById("consonantInfo").textContent = gameState.currentConsonant;
+            hideAllGameScreens();
+            document.getElementById("countdownScreen").style.display = "block";
+            updateButtonsState();
+        }
+
+        function startRound() {
+            gameState.activeGameScreen = "active";
+            gameState.isTimerRunning = true;
+            gameState.timer = 30;
+            
+            const playerInfo = gameState.currentPlayerOrder[gameState.currentPlayerIndex];
+            const team = playerInfo.team === "A" ? gameState.teamA : gameState.teamB;
+            const player = team.players[playerInfo.idx];
+            
+            renderWordPairs(player.words, player.guessedWords);
+            hideAllGameScreens();
+            document.getElementById("activeGameScreen").style.display = "flex";
+            updateButtonsState();
+            
+            startTimer();
+        }
+
+        function getRandomConsonant() {
+            const consonantes = "BCDFGHJKLMNPQRSTVWXYZ".split("");
+            return consonantes[Math.floor(Math.random() * consonantes.length)];
+        }
+
+        function renderWordPairs(words, guessedWords) {
+            const container = document.getElementById("wordsContainer");
+            const letterDisplay = document.getElementById("letterDisplay");
+            
+            letterDisplay.textContent = gameState.currentConsonant;
+            
+            container.innerHTML = "";
+            words.forEach((word) => {
+                const div = document.createElement("div");
+                div.className = "word-pair";
+                
+                // Si la palabra ya fue adivinada, marcarla como guessed
+                if (guessedWords && guessedWords.includes(word)) {
+                    div.classList.add("guessed");
+                }
+                
+                div.innerHTML = word.toUpperCase();
+                container.appendChild(div);
+            });
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById("timerDisplay");
+            gameState.timerInterval = setInterval(() => {
+                if (!gameState.isPaused) {
+                    gameState.timer--;
+                    timerDisplay.textContent = gameState.timer;
+                    
+                    if (gameState.timer <= 0) {
+                        clearInterval(gameState.timerInterval);
+                        gameState.isTimerRunning = false;
+                        endRound();
+                    }
+                }
+            }, 1000);
+        }
+
+        function endRound() {
+            document.getElementById("timeOverOverlay").classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("timeOverOverlay").classList.add("hidden");
+                showValidationScreen();
+            }, 2000);
+        }
+
+        function showValidationScreen() {
+            const playerInfo = gameState.currentPlayerOrder[gameState.currentPlayerIndex];
+            const team = playerInfo.team === "A" ? gameState.teamA : gameState.teamB;
+            const player = team.players[playerInfo.idx];
+            const container = document.getElementById("checkboxContainer");
+            
+            container.innerHTML = "";
+            
+            // Solo mostrar palabras no adivinadas
+            player.words.forEach((word) => {
+                if (player.guessedWords && player.guessedWords.includes(word)) {
+                    return;
+                }
+                
+                const checkbox = document.createElement("label");
+                checkbox.className = "word-checkbox";
+                checkbox.innerHTML = `
+                    <input type="checkbox" data-word="${word}">
+                    <span>${word.toUpperCase()}</span>
+                `;
+                container.appendChild(checkbox);
+            });
+            
+            hideAllGameScreens();
+            document.getElementById("validationScreen").style.display = "block";
+            updateButtonsState();
+        }
+
+        function confirmAndPassPhone() {
+            const playerInfo = gameState.currentPlayerOrder[gameState.currentPlayerIndex];
+            const team = playerInfo.team === "A" ? gameState.teamA : gameState.teamB;
+            const player = team.players[playerInfo.idx];
+            
+            document.querySelectorAll(".word-checkbox input:checked").forEach(checkbox => {
+                const word = checkbox.dataset.word;
+                if (!player.guessedWords) {
+                    player.guessedWords = [];
+                }
+                player.guessedWords.push(word);
+            });
+            
+            updateScore();
+            
+            gameState.currentPlayerIndex++;
+            if (gameState.currentPlayerIndex >= gameState.currentPlayerOrder.length) {
+                gameState.currentPlayerIndex = 0;
+            }
+            
+            if (checkVictory()) {
+                endGame();
+            } else {
+                showNextPlayer();
+            }
+        }
+
+        function updateScore() {
+            let scoreA = 0;
+            let scoreB = 0;
+            
+            gameState.teamA.players.forEach(p => {
+                scoreA += (p.guessedWords || []).length;
+            });
+            
+            gameState.teamB.players.forEach(p => {
+                scoreB += (p.guessedWords || []).length;
+            });
+            
+            document.getElementById("scoreA").textContent = scoreA;
+            document.getElementById("scoreB").textContent = scoreB;
+        }
+
+        function checkVictory() {
+            let totalWordsA = gameState.teamA.players.reduce((sum, p) => sum + p.words.length, 0);
+            let totalWordsB = gameState.teamB.players.reduce((sum, p) => sum + p.words.length, 0);
+            
+            let guessedA = 0;
+            let guessedB = 0;
+            
+            gameState.teamA.players.forEach(p => {
+                guessedA += (p.guessedWords || []).length;
+            });
+            
+            gameState.teamB.players.forEach(p => {
+                guessedB += (p.guessedWords || []).length;
+            });
+            
+            return guessedA === totalWordsA || guessedB === totalWordsB;
+        }
+
+        function endGame() {
+            let guessedA = 0;
+            let guessedB = 0;
+            
+            gameState.teamA.players.forEach(p => {
+                guessedA += (p.guessedWords || []).length;
+            });
+            
+            gameState.teamB.players.forEach(p => {
+                guessedB += (p.guessedWords || []).length;
+            });
+            
+            let winner = guessedA > guessedB ? gameState.teamA : gameState.teamB;
+            let loser = guessedA > guessedB ? gameState.teamB : gameState.teamA;
+            let winnerScore = guessedA > guessedB ? guessedA : guessedB;
+            let loserScore = guessedA > guessedB ? guessedB : guessedA;
+            
+            const endGameContent = document.getElementById("endGameContent");
+            endGameContent.innerHTML = `
+                <div class="end-game-winner">🎉 ¡${winner.name} GANA!</div>
+                <div style="font-size: 24px; color: #667eea; margin: 20px 0;">${winnerScore} palabras acertadas</div>
+                <div class="end-game-loser">${loser.name}: ${loserScore} palabras</div>
+            `;
+            
+            switchScreen("endGameScreen");
+        }
+
+        function confirmEndGame() {
+            if (confirm("La partida todavía no ha terminado.\n\n¿Quieres finalizarla ahora y ver qué equipo va ganando?")) {
+                // Detener el cronómetro
+                if (gameState.timerInterval) {
+                    clearInterval(gameState.timerInterval);
+                }
+                gameState.isTimerRunning = false;
+                gameState.isPaused = false;
+                // Ir directamente a fin de juego
+                endGame();
+            }
+        }
+
+        function updateButtonsState() {
+            const btnBack = document.getElementById("btnBack");
+            btnBack.disabled = gameState.isTimerRunning;
+        }
+
+        function goBack() {
+            if (gameState.isTimerRunning) {
+                alert("No puedes volver atrás mientras el cronómetro está activo");
+                return;
+            }
+            if (confirm("¿Volver atrás para verificar?")) {
+                showNextPlayer();
+            }
+        }
+
+        function togglePause() {
+            if (!gameState.isTimerRunning) return;
+            gameState.isPaused = !gameState.isPaused;
+            document.getElementById("btnPause").textContent = gameState.isPaused ? "▶️ Reanudar" : "⏸️ Pausa";
+        }
+
+        function goToIntro() {
+            if (confirm("¿Volver al menú principal?")) {
+                resetGame();
+                switchScreen("introScreen");
+            }
+        }
+
+        function playAgainSameTeams() {
+            // Limpiar intervalo si existe
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+            }
+            
+            // Resetear palabras adivinadas y redistribuir
+            gameState.teamA.players.forEach(p => {
+                p.guessedWords = [];
+            });
+            gameState.teamB.players.forEach(p => {
+                p.guessedWords = [];
+            });
+            
+            distributeWords();
+            createPlayerOrder();
+            gameState.currentPlayerIndex = 0;
+            switchScreen("gameScreen");
+            showNextPlayer();
+        }
+
+        function saveAndBackToIntro() {
+            const teamsData = {
+                teamA: {
+                    name: gameState.teamA.name,
+                    avatar: gameState.teamA.avatar,
+                    players: gameState.teamA.players.map(p => ({ name: p.name, words: [] }))
+                },
+                teamB: {
+                    name: gameState.teamB.name,
+                    avatar: gameState.teamB.avatar,
+                    players: gameState.teamB.players.map(p => ({ name: p.name, words: [] }))
+                }
+            };
+            localStorage.setItem("tetoTeams", JSON.stringify(teamsData));
+            backToIntro();
+        }
+
+        function backToIntro() {
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+            }
+            resetGame();
+            switchScreen("introScreen");
+        }
+
+        function resetGame() {
+            gameState = {
+                teamA: { name: "Equipo A", avatar: "🎮", players: [] },
+                teamB: { name: "Equipo B", avatar: "🏆", players: [] },
+                currentPlayerOrder: [],
+                currentPlayerIndex: 0,
+                isPaused: false,
+                isTimerRunning: false,
+                timer: 30,
+                currentConsonant: "A",
+                activeGameScreen: "waiting",
+                timerInterval: null
+            };
+        }
+
+        function hideAllGameScreens() {
+            document.getElementById("waitingScreen").style.display = "none";
+            document.getElementById("countdownScreen").style.display = "none";
+            document.getElementById("activeGameScreen").style.display = "none";
+            document.getElementById("validationScreen").style.display = "none";
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+            document.getElementById(screenId).classList.add("active");
+        }
+
+        initEmojiGrids();
+        renderPlayers('A');
+        renderPlayers('B');
+    </script>
+</body>
+</html>
