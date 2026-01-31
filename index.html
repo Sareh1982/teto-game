@@ -27,9 +27,9 @@
         .container {
             width: 100%;
             max-width: 500px;
-            background: white;
+            background: transparent;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: none;
             overflow: hidden;
             min-height: 100vh;
             display: flex;
@@ -39,9 +39,12 @@
         .screen {
             display: none;
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             overflow-y: auto;
             flex-direction: column;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            margin: 10px;
         }
 
         .screen.active {
@@ -50,13 +53,13 @@
 
         .screen-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 6px;
         }
 
         .screen-header h1 {
             font-size: 32px;
             color: #0173B2;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
         .intro-container {
@@ -65,7 +68,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
             text-align: center;
         }
 
@@ -77,11 +80,11 @@
 
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 8px;
+            margin: 4px 0;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         input[type="text"]:focus {
@@ -90,15 +93,15 @@
         }
 
         .btn {
-            padding: 12px 20px;
+            padding: 10px 15px;
             background: linear-gradient(135deg, #0173B2 0%, #029E73 100%);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            margin: 10px 0;
+            margin: 3px 0;
             transition: transform 0.2s;
             width: 100%;
         }
@@ -118,13 +121,13 @@
         .emoji-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 3px 0;
         }
 
         .emoji-btn {
-            font-size: 32px;
-            padding: 8px;
+            font-size: 28px;
+            padding: 6px;
             border: 2px solid #ddd;
             border-radius: 8px;
             background: white;
@@ -145,8 +148,8 @@
 
         .add-player-form {
             display: flex;
-            gap: 8px;
-            margin: 10px 0;
+            gap: 6px;
+            margin: 4px 0;
         }
 
         .add-player-form input {
@@ -155,13 +158,14 @@
         }
 
         .add-player-form button {
-            padding: 10px 15px;
+            padding: 8px 12px;
             background: #28a745;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 12px;
         }
 
         .players-list {
@@ -172,31 +176,32 @@
 
         .player-item {
             display: flex;
-            gap: 10px;
-            margin: 8px 0;
+            gap: 8px;
+            margin: 4px 0;
             align-items: center;
             background: white;
-            padding: 10px;
+            padding: 6px;
             border-radius: 6px;
             border: 1px solid #ddd;
         }
 
         .player-item input {
             flex: 1;
-            padding: 8px;
+            padding: 4px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .player-item button {
-            padding: 6px 10px;
+            padding: 4px 8px;
             background: #ff6b6b;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 12px;
         }
 
         .scoreboard {
@@ -269,7 +274,7 @@
             padding: 10px;
             border-radius: 10px;
             text-align: center;
-            margin: 8px 0;
+            margin: 4px 0;
             font-size: 28px;
             font-weight: bold;
             color: #856404;
@@ -469,9 +474,9 @@
         }
 
         .setup-label {
-            font-size: 12px;
+            font-size: 11px;
             color: #0173B2;
-            margin-bottom: 6px;
+            margin-bottom: 3px;
             font-weight: bold;
         }
     </style>
@@ -497,29 +502,29 @@
         <!-- PANTALLA SETUP EQUIPO A -->
         <div class="screen" id="setupScreenA">
             <div class="screen-header">
-                <img src="https://raw.githubusercontent.com/Sareh1982/zumbaletras/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 200px; height: auto; margin-bottom: 10px;">
+                <img src="https://raw.githubusercontent.com/Sareh1982/zumbaletras/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 200px; height: auto; margin-bottom: 6px;">
             </div>
 
-            <div style="text-align: center; font-size: 16px; color: #0173B2; font-weight: bold; margin-bottom: 15px;">
+            <div style="text-align: center; font-size: 14px; color: #0173B2; font-weight: bold; margin-bottom: 4px;">
                 Configura el Equipo A
             </div>
 
             <div class="setup-label">Escribe el nombre del Equipo A:</div>
-            <input type="text" id="teamAName" placeholder="Nombre del Equipo A" value="Equipo A" style="margin-bottom: 10px;">
+            <input type="text" id="teamAName" placeholder="Nombre del Equipo A" value="Equipo A" style="margin-bottom: 6px;">
             
-            <div class="setup-label" style="margin-top: 10px;">Elige avatar:</div>
-            <div class="emoji-grid" id="emojiGridA" style="margin: 8px 0;"></div>
+            <div class="setup-label" style="margin-top: 6px;">Elige avatar:</div>
+            <div class="emoji-grid" id="emojiGridA" style="margin: 4px 0;"></div>
 
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 6px;">
                 <div class="setup-label">Añade los jugadores:</div>
-                <div class="add-player-form" style="margin: 6px 0;">
+                <div class="add-player-form" style="margin: 3px 0;">
                     <input type="text" id="playerInputA" placeholder="Nombre del jugador">
                     <button onclick="addPlayerToTeam('A')">+ Añadir</button>
                 </div>
-                <div class="players-list" id="playersA" style="max-height: 80px;"></div>
+                <div class="players-list" id="playersA" style="max-height: 60px;"></div>
             </div>
 
-            <button class="btn" onclick="goToSetupB()" style="margin-top: auto; margin-bottom: 8px;">
+            <button class="btn" onclick="goToSetupB()" style="margin-top: 6px; margin-bottom: 4px;">
                 Rellena los datos del equipo B →
             </button>
             <button class="btn btn-secondary" onclick="backToIntro()">⬅️ Volver</button>
@@ -528,29 +533,29 @@
         <!-- PANTALLA SETUP EQUIPO B -->
         <div class="screen" id="setupScreenB">
             <div class="screen-header">
-                <img src="https://raw.githubusercontent.com/Sareh1982/zumbaletras/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 200px; height: auto; margin-bottom: 10px;">
+                <img src="https://raw.githubusercontent.com/Sareh1982/zumbaletras/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 200px; height: auto; margin-bottom: 6px;">
             </div>
 
-            <div style="text-align: center; font-size: 16px; color: #0173B2; font-weight: bold; margin-bottom: 15px;">
+            <div style="text-align: center; font-size: 14px; color: #0173B2; font-weight: bold; margin-bottom: 4px;">
                 Configura el Equipo B
             </div>
 
             <div class="setup-label">Escribe el nombre del Equipo B:</div>
-            <input type="text" id="teamBName" placeholder="Nombre del Equipo B" value="Equipo B" style="margin-bottom: 10px;">
+            <input type="text" id="teamBName" placeholder="Nombre del Equipo B" value="Equipo B" style="margin-bottom: 6px;">
             
-            <div class="setup-label" style="margin-top: 10px;">Elige avatar:</div>
-            <div class="emoji-grid" id="emojiGridB" style="margin: 8px 0;"></div>
+            <div class="setup-label" style="margin-top: 6px;">Elige avatar:</div>
+            <div class="emoji-grid" id="emojiGridB" style="margin: 4px 0;"></div>
 
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 6px;">
                 <div class="setup-label">Añade los jugadores:</div>
-                <div class="add-player-form" style="margin: 6px 0;">
+                <div class="add-player-form" style="margin: 3px 0;">
                     <input type="text" id="playerInputB" placeholder="Nombre del jugador">
                     <button onclick="addPlayerToTeam('B')">+ Añadir</button>
                 </div>
-                <div class="players-list" id="playersB" style="max-height: 80px;"></div>
+                <div class="players-list" id="playersB" style="max-height: 60px;"></div>
             </div>
 
-            <button class="btn" onclick="startGame()" style="margin-top: auto; margin-bottom: 8px;">▶️ INICIAR JUEGO</button>
+            <button class="btn" onclick="startGame()" style="margin-top: 6px; margin-bottom: 4px;">▶️ INICIAR JUEGO</button>
             <button class="btn btn-secondary" onclick="backToSetupA()">⬅️ Volver a Equipo A</button>
         </div>
 
@@ -585,10 +590,10 @@
                 <!-- JUEGO ACTIVO -->
                 <div id="activeGameScreen" style="display: none; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: flex-start;">
                     <img src="https://raw.githubusercontent.com/Sareh1982/zumbaletras/main/logo%20zumbaletras.png" alt="ZUMBALETRAS" style="max-width: 150px; height: auto; margin: 0 auto 8px; display: block;">
-                    <div class="timer-display" id="timerDisplay" style="font-size: 56px; margin: 8px 0;">30</div>
-                    <div class="letter-display" id="letterDisplay" style="margin: 8px 0; padding: 10px;">A</div>
-                    <div class="words-container" id="wordsContainer" style="flex: 1; margin: 8px 0;"></div>
-                    <div style="text-align: center; margin-top: 10px; font-size: 14px; color: #ff6b6b; font-weight: bold; font-style: italic; padding: 10px; background: #fff3cd; border-radius: 8px;">
+                    <div class="timer-display" id="timerDisplay" style="font-size: 56px; margin: 4px 0;">30</div>
+                    <div class="letter-display" id="letterDisplay" style="margin: 4px 0; padding: 10px;">A</div>
+                    <div class="words-container" id="wordsContainer" style="flex: 1; margin: 4px 0;"></div>
+                    <div style="text-align: center; margin-top: 6px; font-size: 14px; color: #ff6b6b; font-weight: bold; font-style: italic; padding: 10px; background: #fff3cd; border-radius: 8px;">
                         ✋ Recuerda que puedes hacer mímica para ayudarte
                     </div>
                 </div>
@@ -597,7 +602,7 @@
                 <div id="validationScreen" style="display: none; width: 100%;">
                     <div style="text-align: center; margin-bottom: 20px;">
                         <h2 style="color: #ff6b6b; font-size: 36px;">¡TIEMPO!</h2>
-                        <p style="color: #666; font-size: 14px; margin-top: 10px;">Marca las palabras adivinadas</p>
+                        <p style="color: #666; font-size: 14px; margin-top: 6px;">Marca las palabras adivinadas</p>
                     </div>
                     <div class="checkbox-container" id="checkboxContainer"></div>
                     <button class="next-player-btn" onclick="confirmAndPassPhone()">Pasa el teléfono al siguiente jugador</button>
@@ -617,7 +622,7 @@
                 <h2>🏆 FIN DE LA PARTIDA</h2>
                 <div id="endGameContent"></div>
                 <button class="btn btn-success" onclick="playAgainSameTeams()" style="margin-top: 20px;">🔄 Jugar otra ronda con estos equipos</button>
-                <button class="btn btn-secondary" onclick="startNewGame()" style="margin-top: 10px;">➕ Crear nuevo equipo desde cero</button>
+                <button class="btn btn-secondary" onclick="startNewGame()" style="margin-top: 6px;">➕ Crear nuevo equipo desde cero</button>
             </div>
         </div>
     </div>
